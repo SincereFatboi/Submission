@@ -380,7 +380,7 @@ def delete_item(id):
 
 # create new item
 
-@app.route('/createitem', methods=['GET', 'POST'])
+@app.route('/createitem/<id>', methods=['GET', 'POST'])
 def create_item():
     # request for item creation form
 
