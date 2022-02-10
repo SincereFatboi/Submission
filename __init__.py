@@ -33,7 +33,7 @@ def create_customer():
                 str(customer_id) + '<,./;>' + create_customer_form.username.data + '<,./;>' + create_customer_form.email.data + '<,./;>' + create_customer_form.password.data + '<,./;>' + '\n')
         return redirect(url_for('home'))
     return render_template('createCustomer.html', form=create_customer_form)
-
+#sup
 
 @app.route('/retrieveCustomers')
 def retrieve_customers():
