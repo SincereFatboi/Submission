@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
-from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, DateField, PasswordField, IntegerField, FileField, DecimalField, validators, ValidationError
-from wtforms.fields.html5 import EmailField
+from wtforms import Form, StringField, RadioField, SelectField, EmailField, TextAreaField, DateField, PasswordField, IntegerField, FileField, DecimalField, validators, ValidationError
+# from wtforms.fields.html5 import EmailField
 from wtforms.widgets import PasswordInput
 
 

@@ -251,9 +251,10 @@ def vendor_account_page(id):
                 break
     return render_template('vendorAccountPage.html', look=look)
 
-@app.route('/listingpage')
-def listingpage():
+@app.route('/listingpage/<id>')
+def listingpage(id):
     # retrieve items from database
+    print(id)
 
     items_dict = {}
     db = shelve.open('items.db', 'c')
