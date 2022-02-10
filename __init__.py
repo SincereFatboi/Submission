@@ -242,5 +242,11 @@ def vendor_account_page(id):
             if str(id) == str(look[0]):
                 break
     return render_template('vendorAccountPage.html', look=look)
+
+
+
+#roy
+
+
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(port=8000, debug=True)
