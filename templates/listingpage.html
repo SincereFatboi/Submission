@@ -12,7 +12,7 @@
 
     <div class="col-lg-4 col-sm-6 pb-4">
         <div class="card" style="width: 25rem;" id="item-card">
-            <img src= "{{url_for('static', filename='/images/'~item.get_id()~'.png')}}" alt="{{item.get_name()}}"  id="listingImage" style:"width: 400px; height: 300px; object-fit: cover;">
+            <img src= "{{url_for('static', filename='/images/'~item.get_id()~'.png')}}" alt="{{item.get_name()}}"  id="listingImage" style="width: 400px; height: 300px; object-fit: cover;">
             <div id="listingInfo">
                 <p>Item ID: {{item.get_id()}}</p>
                 <p class="card-title">Item Name: {{item.get_name()}}</p>
