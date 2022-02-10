@@ -273,6 +273,28 @@ def listingpage():
 
     return render_template('listingpage.html', items_list=items_list)
 
+@app.route('/customerlistingpage')
+def customerlistingpage():
+    # retrieve items from database
+
+    items_dict = {}
+    db = shelve.open('items.db', 'c')
+
+    try:
+        items_dict = db['Items']
+
+    except IndexError:
+        print("Error in retrieving items")
+
+    db.close()
+
+    items_list = []
+    for key in items_dict:
+        item = items_dict.get(key)
+        items_list.append(item)
+
+    return render_template('listingpage.html', items_list=items_list)
+
 @app.route('/updateitem/<int:id>/', methods=["GET", "POST"])
 def update_item(id):
     # request form to update item
