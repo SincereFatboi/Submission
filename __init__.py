@@ -5,7 +5,7 @@ from Vendor import Vendor
 import os
 import sys
 import subprocess
-from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, EmailField, DateField, PasswordField, \
+from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, DateField, PasswordField, \
     validators, ValidationError
 import shelve
 from PIL import Image
