@@ -270,7 +270,6 @@ def listingpage(id):
         print(e)
         return redirect(url_for('empty_listing_page'))
     else:
-
         items_dict = db['Items']
         print(items_dict)
         db.close()
