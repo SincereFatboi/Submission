@@ -257,7 +257,10 @@ def listingpage(id):
     print(id)
 
     items_dict = {}
-    db = shelve.open(str(id) + '.db', 'c')
+    try:
+        db = shelve.open(str(id) + '.db', 'c')
+    except Exception:
+        print("Error acessing database. Try to create a Listing")
 
     try:
         items_dict = db['Items']
