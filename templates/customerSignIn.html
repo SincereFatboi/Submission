@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set active_page = "customerSignIn" %}
+{% block title %}Sign In{% endblock %}
+
+
+{% block content %}
+{% from "includes/formHelper.html" import render_field %}
+<head>
+  <title>Sign In</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signIn.css') }}">
+</head>
+
+<form method="POST" action="" class="form-container">
+  <h1 class="display-4" id="header">Sign In</h1>
+<hr>
+<br>
+  <div class="form-group">
+    {{ render_field(customer_sign_in.email, class="form-control") }}
+  </div>
+  <br>
+  <div class="form-group">
+    {{ render_field(customer_sign_in.password, class="form-control") }}
+  </div>
+  <br>
+  <input type="submit" value="Sign In" class="btn bg-info btn-dark" id="editbtn"/>
+</form>
+{% endblock %}

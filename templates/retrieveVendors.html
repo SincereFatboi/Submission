@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% set active_page = "retrieveVendors" %}
+{% block title %}Retrieve Vendors{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Retrieve Vendors</h1>
+
+
+
+<div>
+  {% set count = count - 1 %}
+  {% if count == 0 %}
+  <p>There are no users.</p>
+  {% elif count == 1 %}
+  <p>There is 1 user.</p>
+  {% else %}
+  <p>There are {{ count }} vendors.</p>
+  {% endif %}
+</div>
+
+
+
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>User Number</th>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Mobile Number</th>
+        <th>Email</th>
+        <th>Password</th>
+
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for counting in range(vendor_list|length) %}
+      {% set vendor = vendor_list[counting] %}
+      <tr>
+        <td>{{ counting }}</td>
+        <td>{{ vendor[0] }}</td>
+        <td>{{ vendor[1] }}</td>
+        <td>{{ vendor[2] }}</td>
+        <td>{{ vendor[3] }}</td>
+        <td>{{ vendor[4] }}</td>
+        <td>{{ vendor[5] }}</td>
+        <td><a href="/updateVendor/{{ vendor[0] }}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_vendor', unique=vendor[0])}}" method="POST">
+            <input type="submit" value="Delete" class="btn btn-danger">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

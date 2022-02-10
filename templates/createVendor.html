@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% set active_page = "createVendor" %}
+{% block title %}Create Vendor{% endblock %}
+
+
+{% block content %}
+{% from "includes/formHelper.html" import render_field %}
+<head>
+  <title>Create Vendor</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/createCustomer.css') }}">
+</head>
+
+<form method="POST" action="" class="form-container">
+  <h1 class="display-4" id="header">Create Account</h1>
+<hr>
+<br>
+  <div class="form-group">
+    {{ render_field(create_vendor_form.name, class="form-control") }}
+  </div>
+  <br>
+  <div class="form-group">
+    {{ render_field(create_vendor_form.username, class="form-control") }}
+  </div>
+  <br>
+  <div class="form-group">
+    {{ render_field(create_vendor_form.mobile, class="form-control") }}
+  </div>
+  <br>
+  <div class="form-group">
+    {{ render_field(create_vendor_form.email, class="form-control") }}
+  </div>
+  <br>
+  <div class="form-group">
+    {{ render_field(create_vendor_form.password_confirm, class="form-control") }}
+  </div>
+  <br>
+  <div class="form-group">
+    {{ render_field(create_vendor_form.password, class="form-control") }}
+  </div>
+  <br>
+  <input type="submit" value="Create Account" class="btn bg-info btn-dark" id="editbtn"/>
+</form>
+{% endblock %}
