@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from Forms import CreateUserForm, CreateCustomerForm, UpdateCustomerForm, CustomerSignIn, CreateVendorForm, UpdateVendorForm
+from form import CreateItemForm, CreateLoanForm
 from Customer import Customer
 from Vendor import Vendor
 from PIL import Image
