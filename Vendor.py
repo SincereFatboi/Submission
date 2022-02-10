@@ -6,7 +6,7 @@ class Vendor(User):
 
     def __init__(self, name, username, mobile, email, password, password_confirm):
         super().__init__(email, password, password_confirm)
-        self.__class__.count_id = str(uuid.uuid4())
+        self.__class__.count_id = "V" + str(uuid.uuid4())
         self.__vendor_id = self.__class__.count_id
         self.__username = username
         self.__name = name

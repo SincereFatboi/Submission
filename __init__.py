@@ -214,7 +214,10 @@ def customer_sign_in():
     customer_sign_in = CustomerSignIn(request.form)
     if 'identification' in session:
         identity = session['identification']
-        return redirect(url_for('vendor_account_page', id=identity))
+        if identity[:1] == 'V':
+            return redirect(url_for('vendor_account_page', id=identity))
+        if identity[:1] == 'C':
+            return redirect(url_for('customer_account_page', id=identity))
     if request.method == 'POST' and customer_sign_in.validate():
         with open('customerDatabase.txt', 'r') as file, open('vendorDatabase.txt', 'r') as file2:
             for line in file:
