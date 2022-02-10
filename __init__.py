@@ -245,7 +245,7 @@ def vendor_account_page(id):
 
 
 
-#roy
+
 
 
 if __name__ == '__main__':
