@@ -230,6 +230,7 @@ def customer_sign_in():
                 print(different2[4])
                 if str(customer_sign_in.email.data) == str(different2[4]) and str(customer_sign_in.password.data) == str(different2[5]):
                     identity = different2[0]
+                    session['identification'] = identity
                     return redirect(url_for('vendor_account_page', id=identity))
         if str(customer_sign_in.email.data) != str(different[2]) or str(customer_sign_in.password.data) != str(different[3]):
             customer_sign_in.password.errors = ['Either your password or email is wrong']
