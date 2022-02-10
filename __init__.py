@@ -257,22 +257,26 @@ def listingpage(id):
     print(id)
 
     items_dict = {}
-    db = shelve.open('items.db', 'c')
-
     try:
-        items_dict = db['Items']
+        db = shelve.open(str(id) + '.db', 'c')
+    except Exception as e:
+        print(e)
+        return render_template("emptylistingpage.html")
+    else:
+        try:
+            items_dict = db['Items']
 
-    except IndexError:
-        print("Error in retrieving items")
+        except IndexError:
+            print("Error in retrieving items")
 
-    db.close()
+        db.close()
 
-    items_list = []
-    for key in items_dict:
-        item = items_dict.get(key)
-        items_list.append(item)
+        items_list = []
+        for key in items_dict:
+            item = items_dict.get(key)
+            items_list.append(item)
 
-    return render_template('listingpage.html', items_list=items_list)
+        return render_template('listingpage.html', items_list=items_list)
 
 @app.route('/customerlistingpage/<id>')
 def customerlistingpage():
@@ -390,7 +394,7 @@ def create_item(id):
     if request.method == 'POST' and create_item_form.validate():
 
         items_dict = {}
-        db = shelve.open('items.db', 'c')
+        db = shelve.open( str(id) + '.db', 'c')
 
         # handle errors
 
@@ -420,7 +424,7 @@ def create_item(id):
             os.path.join('static/images', f"{item.get_id()}.png")
         )
 
-        return redirect(url_for('listingpage'))
+        return redirect(url_for('listingpage', id=id))
     return render_template('createItem.html', form=create_item_form)
 
 
