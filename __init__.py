@@ -251,29 +251,33 @@ def vendor_account_page(id):
                 break
     return render_template('vendorAccountPage.html', look=look)
 
+@app.route('/emptylistingpage')
+def empty_listing_page():
+    return render_template('emptylistingpage.html')
+
 @app.route('/listingpage/<id>')
 def listingpage(id):
     # retrieve items from database
     print(id)
 
-    items_dict = {}
+
     try:
+
         db = shelve.open(str(id) + '.db', 'c')
-    except Exception:
-        print("Error acessing database. Try to create a Listing")
+        print(db['Items'])
 
-    try:
+    except Exception as e:
+        print(e)
+        return redirect(url_for('empty_listing_page'))
+    else:
+
         items_dict = db['Items']
-
-    except IndexError:
-        print("Error in retrieving items")
-
-    db.close()
-
-    items_list = []
-    for key in items_dict:
-        item = items_dict.get(key)
-        items_list.append(item)
+        print(items_dict)
+        db.close()
+        items_list = []
+        for key in items_dict:
+            item = items_dict.get(key)
+            items_list.append(item)
 
     return render_template('listingpage.html', items_list=items_list)
 
