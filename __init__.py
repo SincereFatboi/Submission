@@ -274,7 +274,7 @@ def listingpage(id):
 
     return render_template('listingpage.html', items_list=items_list)
 
-@app.route('/customerlistingpage')
+@app.route('/customerlistingpage/<id>')
 def customerlistingpage():
     # retrieve items from database
 
@@ -294,7 +294,7 @@ def customerlistingpage():
         item = items_dict.get(key)
         items_list.append(item)
 
-    return render_template('listingpage.html', items_list=items_list)
+    return render_template('customerlistingpage.html', items_list=items_list)
 
 @app.route('/updateitem/<int:id>/', methods=["GET", "POST"])
 def update_item(id):
