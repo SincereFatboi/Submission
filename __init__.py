@@ -378,7 +378,7 @@ def delete_item(id):
     return redirect(url_for('listingpage'))
 
 
-# create new item
+# create new itemg
 
 @app.route('/createitem/<id>', methods=['GET', 'POST'])
 def create_item(id):
