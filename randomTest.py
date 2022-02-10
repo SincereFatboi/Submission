@@ -7,4 +7,4 @@ result = ['Code-009 - 02.mp4', 'Art 7 - 01.mp4', 'Will be owned - 05.mp4',' Alic
 list_combine = ""
 result = list_combine.join(result)
 if word1 == result:
-    print('Yesssssss')
+    print('No')
