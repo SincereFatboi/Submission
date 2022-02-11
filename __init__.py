@@ -35,7 +35,7 @@ def create_customer():
                 str(customer_id) + '<,./;>' + create_customer_form.username.data + '<,./;>' + create_customer_form.email.data + '<,./;>' + create_customer_form.password.data + '<,./;>' + '\n')
         return redirect(url_for('home'))
     return render_template('createCustomer.html', form=create_customer_form)
-
+#sup
 
 @app.route('/retrieveCustomers')
 def retrieve_customers():
@@ -266,13 +266,13 @@ def listingpage(id):
     try:
 
         db = shelve.open(str(id) + '.db', 'c')
-        print(db['Items'])
+        print(db['vendorItems'])
 
     except Exception as e:
         print(e)
         return redirect(url_for('empty_listing_page'))
     else:
-        items_dict = db['Items']
+        items_dict = db['vendorItems']
         print(items_dict)
         db.close()
         items_list = []
@@ -396,14 +396,22 @@ def create_item(id):
     create_item_form = CreateItemForm(request.form)
 
     if request.method == 'POST' and create_item_form.validate():
-
+        total_items_dict = {}
         items_dict = {}
         db = shelve.open( str(id) + '.db', 'c')
 
+        db_main = shelve.open('items.db', 'w')
+
         # handle errors
+        try:
+            total_items_dict = db_main["Items"]
+
+        except:
+            print("Error in retrieving items")
+
 
         try:
-            items_dict = db['Items']
+            items_dict = db['vendorItems']
         except:
             print("Error in retrieving items")
 
@@ -417,10 +425,15 @@ def create_item(id):
                          create_item_form.available.data,
                          create_item_form.location.data)
 
-        # update database
+        # update customer database
+        total_items_dict[item.get_id()] = item
+        db_main['Items'] = total_items_dict
+        db_main.close()
 
+
+        #update vendor database
         items_dict[item.get_id()] = item
-        db['Items'] = items_dict
+        db['vendorItems'] = items_dict
         db.close()
 
         # save image to static
