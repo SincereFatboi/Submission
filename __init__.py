@@ -322,6 +322,7 @@ def update_item(vendorid, id):
         total_items_dict = db_main['Items']
 
         item = items_dict.get(id)
+
         item.set_image(update_item_form.image.data)
         # request.files['image'].save(
         #     os.path.join('static/images', f"{item.get_id()}.png")
@@ -352,10 +353,14 @@ def update_item(vendorid, id):
 
     # display current information
     else:
+        total_items_dict = {}
         items_dict = {}
+
+
         # items_list = []
         db = shelve.open('items.db', 'r')
         items_dict = db['Items']
+        print(items_dict)
         item = items_dict.get(id)
         update_item_form.image.data = item.get_image()
         update_item_form.name.data = item.get_name()
@@ -417,8 +422,8 @@ def delete_item(vendorid, id):
 
 # create new itemg
 
-@app.route('/createitem/<id>', methods=['GET', 'POST'])
-def create_item(id):
+@app.route('/createitem/<vendorid>', methods=['GET', 'POST'])
+def create_item(vendorid):
     print(id)
     # request for item creation form
 
@@ -429,7 +434,7 @@ def create_item(id):
         items_dict = {}
 
         #open vendor database
-        db = shelve.open( str(id) + '.db', 'c')
+        db = shelve.open( str(vendorid) + '.db', 'c')
 
         #open customer database
         db_main = shelve.open('items.db', 'w')
@@ -473,7 +478,7 @@ def create_item(id):
             os.path.join('static/images', f"{item.get_id()}.png")
         )
 
-        return redirect(url_for('listingpage', id=id))
+        return redirect(url_for('listingpage', vendorid=vendorid))
     return render_template('createItem.html', form=create_item_form)
 
 @app.route('/createloan', methods=['GET', 'POST'])
