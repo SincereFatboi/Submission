@@ -2,9 +2,10 @@ from time import time_ns
 class Item:
 
 
-  def __init__(self, image, name, description, rate, on_loan, available, location):
+  def __init__(self, image ,vendor_id , name, description, rate, on_loan, available, location):
 
       self.__id = time_ns()
+      self.__vendor_id = vendor_id
       self.__image = image
       self.__name = name
       self.__description = description
@@ -16,6 +17,9 @@ class Item:
 
   def get_image(self):
     return self.__image
+
+  def get_vendor_id(self):
+    return self.__vendor_id
 
   def get_id(self):
     return self.__id
@@ -43,6 +47,9 @@ class Item:
 
   def set_image(self, image):
     self.__image = image
+
+  def set_vendor_id(self, vendor_id):
+    self.__vendor_id = vendor_id
 
   def set_id(self, id):
     self.__id= id

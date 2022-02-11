@@ -14,13 +14,14 @@
             <div id="listingInfo">
                 <p>Item ID: {{item.get_id()}}</p>
                 <p class="card-title">Item Name: {{item.get_name()}}</p>
+                <p class="card-title">Item ID: {{ item.get_vendor_id() }}</p>
                 <p>Specifications: {{item.get_description()}}</p>
                 <p>${{item.get_rate()}}/day</p>
                 <p id = "on_loan" style="color: red;">On Loan: {{item.get_on_loan()}}</p>
                 <p id = "available" style="color: green;">Available: {{item.get_available()}}</p>
             </div>
                         <!--    update item-->
-            <a href='/updateitem/{{ vendorid }}/{{item.get_id()}}/' class="btn btn-warning" id = "updateButton" style="margin-bottom: 20px; color: ">Update Item</a>
+            <a href='/updateitem/{{ item.get_vendor_id() }}/{{item.get_id()}}/' class="btn btn-warning" id = "updateButton" style="margin-bottom: 20px; color: ">Update Item</a>
                 <!--delete item-->
             <form action="{{url_for('delete_item', vendorid=vendorid, id=item.get_id())}}" method="POST">
                 <input type="submit" value="Delete" class="btn btn-danger"  id = "deleteItem" style="">

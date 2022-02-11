@@ -348,6 +348,17 @@ def update_item(vendorid, id):
         total_items_dict = db_main['Items']
 
         item = items_dict.get(id)
+        item.set_image(update_item_form.image.data)
+        # request.files['image'].save(
+        #     os.path.join('static/images', f"{item.get_id()}.png")
+        # )
+        item.set_name(update_item_form.name.data)
+        item.set_description(update_item_form.description.data)
+        item.set_rate(update_item_form.rate.data)
+        item.set_on_loan(update_item_form.on_loan.data)
+        item.set_available(update_item_form.available.data)
+        item.set_location(update_item_form.location.data)
+        item = total_items_dict.get(id)
 
         item.set_image(update_item_form.image.data)
         # request.files['image'].save(
@@ -463,7 +474,7 @@ def create_item(vendorid):
         db = shelve.open( str(vendorid) + '.db', 'c')
 
         #open customer database
-        db_main = shelve.open('items.db', 'w')
+        db_main = shelve.open('items.db', 'c')
 
         # handle errors
         try:
@@ -481,13 +492,14 @@ def create_item(vendorid):
         # get information entered into form
 
         item = Item.Item(create_item_form.image.data,
+                         vendorid,
                          create_item_form.name.data,
                          create_item_form.description.data,
                          create_item_form.rate.data,
                          create_item_form.on_loan.data,
                          create_item_form.available.data,
                          create_item_form.location.data)
-
+        print(vendorid, 'helloooiioi')
         # update customer database
         total_items_dict[item.get_id()] = item
         db_main['Items'] = total_items_dict
@@ -505,7 +517,7 @@ def create_item(vendorid):
         )
 
         return redirect(url_for('listingpage', vendorid=vendorid))
-    return render_template('createItem.html', form=create_item_form)
+    return render_template('createItem.html', form=create_item_form, vendorid=vendorid)
 
 @app.route('/createloan', methods=['GET', 'POST'])
 def create_loan():
