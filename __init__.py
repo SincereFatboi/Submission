@@ -267,15 +267,15 @@ def sign_out():
 def empty_listing_page():
     return render_template('emptylistingpage.html')
 
-@app.route('/listingpage/<id>')
-def listingpage(id):
+@app.route('/listingpage/<vendorid>')
+def listingpage(vendorid):
     # retrieve items from database
     print(id)
 
 
     try:
 
-        db = shelve.open(str(id) + '.db', 'c')
+        db = shelve.open(str(vendorid) + '.db', 'c')
         print(db['vendorItems'])
 
     except Exception as e:
@@ -290,17 +290,17 @@ def listingpage(id):
             item = items_dict.get(key)
             items_list.append(item)
 
-    return render_template('listingpage.html', items_list=items_list)
+    return render_template('listingpage.html', items_list=items_list, vendorid=vendorid)
 
 @app.route('/customerlistingpage/<id>')
 def customerlistingpage():
     # retrieve items from database
 
-    items_dict = {}
+    total_items_dict = {}
     db = shelve.open('items.db', 'c')
 
     try:
-        items_dict = db['Items']
+        total_items_dict = db['Items']
 
     except IndexError:
         print("Error in retrieving items")
@@ -308,23 +308,31 @@ def customerlistingpage():
     db.close()
 
     items_list = []
-    for key in items_dict:
-        item = items_dict.get(key)
+    for key in total_items_dict:
+        item = total_items_dict.get(key)
         items_list.append(item)
 
     return render_template('customerlistingpage.html', items_list=items_list)
 
-@app.route('/updateitem/<int:id>/', methods=["GET", "POST"])
-def update_item(id):
+@app.route('/updateitem/<vendorid>/<int:id>/', methods=["GET", "POST"])
+def update_item(vendorid, id):
     # request form to update item
 
     update_item_form = CreateItemForm(request.form)
     if request.method == 'POST' and update_item_form.validate():
+        total_items_dict = {}
         items_dict = {}
-        db = shelve.open('items.db', 'w')
-        items_dict = db["Items"]
+
+        #open vendor database
+        db = shelve.open(str(vendorid) + '.db', 'w')
+        items_dict = db["vendorItems"]
+
+        #open customer database
+        db_main = shelve.open('items.db', 'w')
+        total_items_dict = db_main['Items']
 
         item = items_dict.get(id)
+
         item.set_image(update_item_form.image.data)
         # request.files['image'].save(
         #     os.path.join('static/images', f"{item.get_id()}.png")
@@ -345,17 +353,24 @@ def update_item(id):
             im = im.save(os.path.join('static/images', f"{imageName}.png"))
             os.remove(os.path.join('static/images', f"{imageName}1.png"))
 
-        db['Items'] = items_dict
+        db_main['Items'] = total_items_dict
+        db_main.close()
+
+        db['vendorItems'] = items_dict
         db.close()
 
-        return redirect(url_for('listingpage'))
+        return redirect(url_for('listingpage', vendorid=vendorid))
 
     # display current information
     else:
+        total_items_dict = {}
         items_dict = {}
+
+
         # items_list = []
         db = shelve.open('items.db', 'r')
         items_dict = db['Items']
+        print(items_dict)
         item = items_dict.get(id)
         update_item_form.image.data = item.get_image()
         update_item_form.name.data = item.get_name()
@@ -369,14 +384,30 @@ def update_item(id):
 
 
 # delete item
-@app.route('/deleteitem/<int:id>/', methods=['POST'])
-def delete_item(id):
+@app.route('/deleteitem/<vendorid>/<int:id>/', methods=['POST'])
+def delete_item(vendorid, id):
     # retrieve item from database
 
+    #vendor side
+    total_items_dict = {}
+
+    #customer side
     items_dict = {}
-    db = shelve.open('items.db', 'w')
+
+    #vendor side
+    db = shelve.open(str(vendorid) + '.db', 'w')
+
+    #customer side
+    db_main = shelve.open('items.db', 'w')
+
+    #vendor side exception handling
     try:
-        items_dict = db['Items']
+        items_dict = db['vendorItems']
+    except IndexError:
+        print("Error in retrieving items")
+    #customer side vendor validation
+    try:
+        total_items_dict = db_main['Items']
 
     except IndexError:
         print("Error in retreiving items")
@@ -384,22 +415,25 @@ def delete_item(id):
     # delete image from static
     os.remove(f'static/images/{id}.png')
 
-    # delete selected item
-
+    # delete selected item from vendor side
     items_dict.pop(id)
+    # delete selected item from customer side
+    total_items_dict.pop(id)
 
-    # update database
-
-    db['Items'] = items_dict
+    #update vendor database
+    db['vendorItems'] = items_dict
     db.close()
+    # update customer database
+    db_main['Items'] = total_items_dict
+    db_main.close()
 
-    return redirect(url_for('listingpage'))
+    return redirect(url_for('listingpage', vendorid=vendorid))
 
 
 # create new itemg
 
-@app.route('/createitem/<id>', methods=['GET', 'POST'])
-def create_item(id):
+@app.route('/createitem/<vendorid>', methods=['GET', 'POST'])
+def create_item(vendorid):
     print(id)
     # request for item creation form
 
@@ -408,8 +442,11 @@ def create_item(id):
     if request.method == 'POST' and create_item_form.validate():
         total_items_dict = {}
         items_dict = {}
-        db = shelve.open( str(id) + '.db', 'c')
 
+        #open vendor database
+        db = shelve.open( str(vendorid) + '.db', 'c')
+
+        #open customer database
         db_main = shelve.open('items.db', 'w')
 
         # handle errors
@@ -451,9 +488,8 @@ def create_item(id):
             os.path.join('static/images', f"{item.get_id()}.png")
         )
 
-        return redirect(url_for('listingpage', id=id))
+        return redirect(url_for('listingpage', vendorid=vendorid))
     return render_template('createItem.html', form=create_item_form)
-
 
 @app.route('/createloan', methods=['GET', 'POST'])
 def create_loan():
