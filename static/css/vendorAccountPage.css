@@ -76,3 +76,7 @@ text-align: left;
 .headertitle {
 font-size: 20px;
 }
+#delbtn {
+float: right;
+width: 100px;
+}
