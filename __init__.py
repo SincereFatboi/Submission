@@ -243,7 +243,7 @@ def customer_sign_in():
     return render_template('customerSignIn.html', customer_sign_in=customer_sign_in)
 
 
-@app.route('/vendorAccountPage/<id>')
+@app.route('/vendorAccountPage/<id>', methods=['GET', 'POST'])
 def vendor_account_page(id):
     print('Hello')
     with open('vendorDatabase.txt', 'r') as file:
@@ -251,7 +251,17 @@ def vendor_account_page(id):
             look = lines.split('<,./;>')
             if str(id) == str(look[0]):
                 break
+    if request.method == "POST":
+        session.pop('identification', None)
+        return redirect(url_for('customerSignIn'))
     return render_template('vendorAccountPage.html', look=look)
+
+@app.route('/signOut', methods=['GET', 'POST'])
+def sign_out():
+    if request.method == 'POST':
+        session.pop('identification', None)
+        return redirect(url_for('customer_sign_in'))
+    return render_template('vendorAccountPage.html')
 
 @app.route('/emptylistingpage')
 def empty_listing_page():

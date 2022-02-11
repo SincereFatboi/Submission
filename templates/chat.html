@@ -23,7 +23,7 @@
         {% for message in chat %}
         <div class="container bg-{% if message.id() == me %}success{% else %}primary{% endif %}">
             <img src="/avatars/{{ message.id() }}.png" alt="Avatar"
-                 onerror="this.src = '{{ url_for('static', filename='pics/defaultAvatar.jpg') }}';">
+                 onerror="this.src = '{{ url_for('static', filename='images/emptyPic.jpg') }}';">
             <p><b style="font-size: 16pt;">
                 {% if message.id() == me %}
                 {% if asVendor %}Vendor{% else %}Customer{% endif %}
