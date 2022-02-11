@@ -5,9 +5,13 @@
 {% from "includes/formHelper.html" import render_field %}
 
 
-<h2 id = "Title"> Add New Listing </h2>
+<head>
+  <title>Add New Item</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/createCustomer.css') }}">
+</head>
 
 <form method="POST" action="" enctype="multipart/form-data" class="form-container">
+ <h1 class="display-4" id="header">Add a new Item</h1>
   <div class="form-group">
     {{ render_field(form.image, class="form-control") }}
   </div>
@@ -31,5 +35,6 @@
     {{ render_field(form.location, class="form-control") }}
   </div>
   <input id="submit" type="submit" value="Add item to inventory" class="btn btn-primary"/>
+  <br>
 </form>
 {% endblock %}
