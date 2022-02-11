@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+
+from Chat import Chat, Message
 from Forms import CreateUserForm, CreateCustomerForm, UpdateCustomerForm, CustomerSignIn, CreateVendorForm, UpdateVendorForm, CreateItemForm, CreateLoanForm
 from Customer import Customer
 from Vendor import Vendor
@@ -576,6 +578,57 @@ def move_to_prev(id):
     db_prev.close()
 
     return render_template('futureloans.html')
+
+
+@app.route("/<string:TYPE>/chats/<string:ID>", methods=["GET"])
+def chats(TYPE: str, ID: str):
+    TYPE: bool = TYPE.strip().lower().startswith('v')
+    _chats: set[str] = Chat().getChatsByID(ID)
+    __chats: list = []
+    for chat_ in _chats:
+        c: Chat = Chat(chat_ if TYPE else ID, ID if TYPE else chat_)
+        __chats.append((chat_, c.getLastMessageObject(), c.getUnreadMessagesCount(asVendor=TYPE)))
+    return render_template("chats.html", count=len(__chats), chats_list=__chats, asVendor=TYPE, me=ID)
+
+
+# This is for chat, message, review, and feedback features:
+
+@app.route("/<string:TYPE>/chats/<string:MY_ID>/<string:YOUR_ID>", methods=["GET", "POST"])
+def chat(TYPE: str, MY_ID: str, YOUR_ID: str):
+    TYPE: bool = TYPE.strip().lower().startswith('v')
+    CHAT: Chat = Chat(YOUR_ID if TYPE else MY_ID, MY_ID if TYPE else YOUR_ID)
+    if request.method == "POST":
+        CHAT.appendChatMessage(TYPE, request.form.get("text", '', str))
+    c: list[Message] = CHAT.getChat()
+    for i in range(len(c)):
+        c[i].index = i
+    c.reverse()
+    return render_template("chat.html", asVendor=TYPE, me=MY_ID, you=YOUR_ID, chat=c)
+
+
+# This is for chat, message, review, and feedback features:
+
+@app.route("/<string:TYPE>/chats/<string:MY_ID>/<string:YOUR_ID>/edit", methods=["POST"])
+def edit_chat(TYPE: str, MY_ID: str, YOUR_ID: str):
+    TYPE: bool = TYPE.strip().lower().startswith('v')
+    CHAT: Chat = Chat(YOUR_ID if TYPE else MY_ID, MY_ID if TYPE else YOUR_ID)
+    try:
+        index: int = int(request.json.get('i', -1))
+        newMsg: str = str(request.json.get("msg", ''))
+        if MY_ID == CHAT.getChat()[index].id() and CHAT.editChatMessage(index, newMsg):
+            return '', 200
+    except:
+        pass
+    return '', 403
+
+
+# This is for chat, message, review, and feedback features:
+
+@app.route("/<string:TYPE>/deleteChat/<string:MY_ID>/<string:YOUR_ID>", methods=["POST"])
+def delete_chat(TYPE: str, MY_ID: str, YOUR_ID: str):
+    TYPE: bool = TYPE.strip().lower().startswith('v')
+    if Chat(YOUR_ID if TYPE else MY_ID, MY_ID if TYPE else YOUR_ID).delChat():
+        return redirect(url_for("chats", TYPE=("vendor" if TYPE else "customer"), ID=MY_ID))
 
 
 
