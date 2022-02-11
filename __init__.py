@@ -20,25 +20,30 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     app.secret_key = 'random123random098'
+    if 'identification' not in session:
+        return redirect(url_for('customer_sign_in'))
+    else:
+        account = session['identification']
 
-    total_items_dict = {}
-    db = shelve.open('items.db', 'c')
+        total_items_dict = {}
+        db = shelve.open('items.db', 'c')
 
-    try:
-        total_items_dict = db['Items']
+        try:
+            total_items_dict = db['Items']
 
-    except IndexError:
-        print("Error in retrieving items")
+        except IndexError:
+            print("Error in retrieving items")
 
-    db.close()
+        db.close()
 
-    items_list = []
+        items_list = []
 
-    for key in total_items_dict:
-        item = total_items_dict.get(key)
-        items_list.append(item)
+        for key in total_items_dict:
+            item = total_items_dict.get(key)
+            items_list.append(item)
 
-    return render_template('home.html', items_list=items_list)
+    return render_template('home.html', items_list=items_list, account=account)
+
 @app.route('/createCustomer', methods=['GET', 'POST'])
 def create_customer():
     create_customer_form = CreateCustomerForm(request.form)

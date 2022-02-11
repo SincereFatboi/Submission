@@ -21,9 +21,8 @@
     <div class="container overflow-auto"
          style="margin-left: 25vh; border-radius: 16px; height: 60vh; overflow-y: scroll; overflow-x: hidden; display: flex; flex-direction: column-reverse;">
         {% for message in chat %}
-        <div class="container bg-{% if message.id() == me %}success{% else %}primary{% endif %}">
-            <img src="/avatars/{{ message.id() }}.png" alt="Avatar"
-                 onerror="this.src = '{{ url_for('static', filename='images/emptyPic.jpg') }}';">
+        <div class="container bg-{% if message.id() == me %}{% else %}{% endif %}">
+            <hr>
             <p><b style="font-size: 16pt;">
                 {% if message.id() == me %}
                 {% if asVendor %}Vendor{% else %}Customer{% endif %}
@@ -39,7 +38,7 @@
                       onmouseover="this.oninput();" onwheel="this.oninput();" onload="this.oninput();" name="msg"
                       autocomplete="off" form="msg{{ message.index }}" class="bg-success" id="msg{{ message.index }}"
                       draggable="false" placeholder="{{ message.msg() }}"
-                      style="color: white; border-radius: 16px; float: right; resize: none; height: auto; width: 100%; white-space: pre-line; border: 0; overflow-y: hidden; font-size: 14pt; display: inline;">{{ message.msg() }}</textarea>
+                      style="padding: 8px; color: white; border-radius: 16px; float: right; resize: none; height: auto; width: 100%; white-space: pre-line; border: 0; overflow-y: hidden; font-size: 14pt; display: inline; text-align: right;">{{ message.msg() }}</textarea>
                 <button type="button" class="btn btn-danger btn-sm" value="Delete" data-bs-toggle="modal"
                         data-bs-target="#myModal_{{ message.index }}" style="float: right; display: inline;">
                     Delete
@@ -71,7 +70,7 @@
                 </div>
             </form>
             {% else %}
-            <p style="color: white; white-space: pre-line; font-size: 14pt;" class="white-text" id="white-text">
+            <p style="color: black; font-size: 14pt; width: 50%; padding: 5px; border-radius: 8px;" class="white-text bg-info" id="white-text">
                 {{ message.msg() }}
             </p>
             {% endif %}
@@ -90,11 +89,11 @@
                     <textarea name="text" autocomplete="off" required form="chat" class="form-control" id="text"
                               autofocus draggable="false"
                               style="border-radius: 16px; resize: none; height: 100px; width: 100%; font-size: 14pt;"
-                              placeholder="Message {% if asVendor %}Customer{% else %}Vendor{% endif %} @{{ you }} ..."></textarea>
+                              placeholder="Message {% if asVendor %}Customer{% else %}Vendor{% endif %} @ {{ you }} ..."></textarea>
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-primary" value="Send"
-                            style="border-radius: 16px; margin-top: 25px; height: 50px; width: auto; font-size: 14pt; text-align: center;">
+                    <button type="submit" class="btn btn-info" value="Send"
+                            style="border-radius: 5px; margin-top: 25px; height: 50px; width: 100px; font-size: 14pt; text-align: center;">
                         Send
                     </button>
                 </td>
