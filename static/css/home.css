@@ -1,5 +1,15 @@
-.thing {
-margin: 5px;
-float: right !important;
+#chat {
+margin-bottom: 10px;
+position: absolute;
+left: 235px;
+bottom: 50px;
 }
+
+#cart {
+margin-bottom: 15px;
+position: absolute;
+left: 275px;
+bottom: 0px;
+}
+
 

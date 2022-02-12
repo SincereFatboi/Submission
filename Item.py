@@ -2,10 +2,11 @@ from time import time_ns
 class Item:
 
 
-  def __init__(self, image ,vendor_id , name, description, rate, on_loan, available, location):
+  def __init__(self, image ,vendor_id, vendor_name, name, description, rate, on_loan, available, location):
 
       self.__id = time_ns()
       self.__vendor_id = vendor_id
+      self.__vendor_name = vendor_name
       self.__image = image
       self.__name = name
       self.__description = description
@@ -42,6 +43,9 @@ class Item:
   def get_location(self):
     return self.__location
 
+  def get_vendor_name(self):
+    return self.__vendor_name
+
 
 
 
@@ -71,3 +75,6 @@ class Item:
 
   def set_location(self, location):
     self.__location = location
+
+  def set_vendor_name(self, vendor_name):
+    self.__vendor_name = vendor_name

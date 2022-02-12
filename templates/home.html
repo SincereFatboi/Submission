@@ -9,24 +9,21 @@
 </head>
 <h1 class="display-4">Home</h1>
 <p>This is the landing page!</p>
-    <div class="row">
+    <div class="row" style="margin-left: 20px;">
     {%for item in items_list%}
 
-    <div class="col-lg-4 col-sm-6 pb-4">
-        <div class="card" style="width: 25rem;" id="item-card">
+    <div class="col-lg-3 col-sm-6 pb-4">
+        <div class="card" style="width: 25rem; height: 700px;" id="item-card">
             <img src= "{{url_for('static', filename='/images/'~item.get_id()~'.png')}}" alt="{{item.get_name()}}"  id="listingImage" style="width: 398.5px; height: 300px; object-fit: cover;">
             <div id="listingInfo">
-                <p>Item ID: {{item.get_id()}}</p>
                 <p class="card-title">Item Name: {{item.get_name()}}</p>
-                <p class="card-title">Item ID: {{ item.get_vendor_id() }}</p>
-                <p>Specifications: {{item.get_description()}}</p>
+                <p class="card-title">Vendor: <a href="">{{ item.get_vendor_name() }}</a></p>
+                <p style="white-space: pre-line;">Specifications: {{item.get_description()}}</p>
                 <p>${{item.get_rate()}}/day</p>
-                <p id = "on_loan" style="color: red;">On Loan: {{item.get_on_loan()}}</p>
                 <p id = "available" style="color: green;">Available: {{item.get_available()}}</p>
             </div>
-            <a href='/customer/chats/{{ account }}/{{ item.get_vendor_id() }}' class="btn btn-warning thing" >Chat with Vendor</a>
-            <a href='' class="btn btn-info thing">Add to Cart</a>
-            <br>
+            <a href='/customer/chats/{{ account }}/{{ item.get_vendor_id() }}' class="btn btn-warning" id="chat" >Chat with Vendor</a>
+            <a href='' class="btn btn-info" id="cart" >Add to Cart</a>
 
 
         </div>

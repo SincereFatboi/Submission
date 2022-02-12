@@ -6,6 +6,7 @@ from Customer import Customer
 from Vendor import Vendor
 import os
 import sys
+import random
 import subprocess
 from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, DateField, PasswordField, \
     validators, ValidationError
@@ -27,7 +28,7 @@ def cart():
 def home():
     app.secret_key = 'random123random098'
     if 'identification' not in session:
-        return redirect(url_for('customer_sign_in'))
+        return redirect(url_for('customer_store'))
     else:
         account = session['identification']
 
@@ -47,6 +48,10 @@ def home():
         for key in total_items_dict:
             item = total_items_dict.get(key)
             items_list.append(item)
+
+        random.shuffle(items_list)
+
+
 
     return render_template('home.html', items_list=items_list, account=account)
 
@@ -268,6 +273,14 @@ def customer_sign_in():
             customer_sign_in.password.errors = ['Either your password or email is wrong']
             customer_sign_in.email.data = ''
     return render_template('customerSignIn.html', customer_sign_in=customer_sign_in)
+
+
+@app.route('/customerStore', methods=['GET', 'POST'])
+def customer_store():
+    if 'identification' in session:
+        return redirect(url_for('home'))
+    else:
+        return redirect(url_for('customer_sign_in'))
 
 
 @app.route('/vendorAccountPage/<id>', methods=['GET', 'POST'])
@@ -501,20 +514,26 @@ def create_item(vendorid):
             print("Error in retrieving items")
 
         # get information entered into form
+        with open('vendorDatabase.txt', 'r') as file:
+            for line in file:
+                splitlist = line.split('<,./;>')
+                if str(vendorid) == str(splitlist[0]):
+                    username = splitlist[2]
+                    print(username)
 
         item = Item.Item(create_item_form.image.data,
-                         vendorid,
+                         vendorid, username,
                          create_item_form.name.data,
                          create_item_form.description.data,
                          create_item_form.rate.data,
                          create_item_form.on_loan.data,
                          create_item_form.available.data,
                          create_item_form.location.data)
-        print(vendorid, 'helloooiioi')
         # update customer database
         total_items_dict[item.get_id()] = item
         db_main['Items'] = total_items_dict
         db_main.close()
+
 
 
         #update vendor database
@@ -527,7 +546,7 @@ def create_item(vendorid):
             os.path.join('static/images', f"{item.get_id()}.png")
         )
 
-        return redirect(url_for('listingpage', vendorid=vendorid))
+        return redirect(url_for('listingpage', vendorid=vendorid, username=username))
     return render_template('createItem.html', form=create_item_form, vendorid=vendorid)
 
 @app.route('/createloan', methods=['GET', 'POST'])
@@ -701,7 +720,12 @@ def chat(TYPE: str, MY_ID: str, YOUR_ID: str):
     for i in range(len(c)):
         c[i].index = i
     c.reverse()
-    return render_template("chat.html", asVendor=TYPE, me=MY_ID, you=YOUR_ID, chat=c)
+    with open('vendorDatabase.txt', 'r') as file:
+        for line in file:
+            splitlist = line.split('<,./;>')
+            if str(YOUR_ID) == str(splitlist[0]):
+                username = splitlist[1]
+    return render_template("chat.html", asVendor=TYPE, me=MY_ID, you=YOUR_ID, chat=c, username=username)
 
 
 # This is for chat, message, review, and feedback features:

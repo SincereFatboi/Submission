@@ -13,9 +13,8 @@
 
 {% block content %}
 <a href="/{{ 'vendor' if asVendor else 'customer' }}/chats/{{ me }}" class="btn btn-outline-dark btn-lg"
-   style="border-radius: 16px; display: inline; float: left;">Back</a>
-<h1 class="display-4" style="margin: 0 auto; text-align: center;">{% if asVendor %}Customer{% else %}Vendor{% endif %}
-    {{ you }} Chat:</h1>
+   style="border-radius: 5px; display: inline; margin-top: 10px; float: left;">Back</a>
+<h1 class="display-4" style="margin: 0 auto; text-align: center;">{% if asVendor %}Customer{% else %}Vendor{% endif %} {{ username }} Chat</h1>
 
 <div style="height: auto; width: 100%; justify-content: center;">
     <div class="container overflow-auto"
@@ -89,7 +88,7 @@
                     <textarea name="text" autocomplete="off" required form="chat" class="form-control" id="text"
                               autofocus draggable="false"
                               style="border-radius: 16px; resize: none; height: 100px; width: 100%; font-size: 14pt;"
-                              placeholder="Message {% if asVendor %}Customer{% else %}Vendor{% endif %} @ {{ you }} ..."></textarea>
+                              placeholder="Message {% if asVendor %}Customer{% else %}Vendor{% endif %} {{ username }}"></textarea>
                 </td>
                 <td>
                     <button type="submit" class="btn btn-info" value="Send"

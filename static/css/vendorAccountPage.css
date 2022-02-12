@@ -80,3 +80,21 @@ font-size: 20px;
 float: right;
 width: 100px;
 }
+.yup {
+height: 29px;
+}
+.oops{
+position: relative;
+top: -15px;
+}
+.linky {
+color: black;
+text-decoration: none;
+}
+.linky:hover {
+text-decoration: none;
+color: #17a2b8;
+}
+.normal {
+color: black;
+}
