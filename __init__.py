@@ -23,6 +23,14 @@ app.register_blueprint(bookings, url_prefix="/book")
 def cart():
     return render_template("cart.html")
 
+@app.route('/payment')
+def payment():
+    return render_template("payments.html")
+
+@app.route('/thanks')
+def thanks():
+    return render_template('thanks.html')
+
 @app.route('/')
 def home():
     app.secret_key = 'random123random098'

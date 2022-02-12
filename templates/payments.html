@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Book Item{% endblock %}
+
+{% block content %}
+<style>
+    #pageHolder {
+        width: calc(100vw - 30px);
+        height: calc(100vh - 56px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    th {
+        padding: 0 60px;
+        text-align: center;
+        width: 250px
+    }
+
+    tr {
+        border: 1px solid black;
+    }
+
+    img {
+        max-width: 50%;
+        margin: 20px 0;
+    }
+
+    td {
+        width: 250px;
+        text-align: center;
+    }
+
+    tr > td:nth-child(1) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+    }
+
+    .button {
+        color: white;
+        background-color: black;
+        width: 300px;
+        padding: 15px 0;
+        border: none;
+        margin: 50px 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .button:nth-child(1) {
+        background-color: blueviolet;
+    }
+
+    .button:hover {
+        text-decoration: none;
+        color: lightgrey;
+    }
+</style>
+<div id="pageHolder">
+    <h1 style="">Payment</h1>
+    <img src="/static/images/visamastercard.png" style="height: 100px" />
+    <div style="display: flex; flex-direction: column;width: 700px">
+        <input class="form-control" type="text" placeholder="Name on Card" />
+        <div style="display: flex; margin: 10px 0;">
+            <input style="margin-right: 5px" class="form-control" type="month" placeholder="Expiration Date" />
+            <input style="margin-left: 5px" class="form-control" type="cvc" placeholder="CVC (3 digits)" />
+        </div>
+        <input class="form-control" type="tel" placeholder="Card number" />
+    </div>
+    <div style="display: flex">
+        <a class="button" href="/thanks">Submit</a>
+    </div>
+</div>
+{% endblock %}
