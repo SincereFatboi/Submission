@@ -226,7 +226,7 @@ def retrieve_vendors():
     return render_template('retrieveVendors.html', count=len(vendor_list), splitlist=splitlist,
                            vendor_list=vendor_list)
 
-
+#yes
 @app.route('/updateVendor/<string:unique>', methods=['GET', 'POST'])
 def update_vendor(unique):
     prefill_vendor_form = UpdateVendorForm(request.form)
