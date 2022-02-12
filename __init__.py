@@ -14,8 +14,14 @@ from PIL import Image
 from flask import Flask, render_template, request, redirect, url_for
 import Item
 import Loan
-app = Flask(__name__)
+from routes.booking import bookings
 
+app = Flask(__name__)
+app.register_blueprint(bookings, url_prefix="/book")
+
+@app.route('/cart')
+def cart():
+    return render_template("cart.html")
 
 @app.route('/')
 def home():
