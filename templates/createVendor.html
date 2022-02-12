@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "baseless.html" %}
 {% set active_page = "createVendor" %}
 {% block title %}Create Vendor{% endblock %}
 
@@ -39,5 +39,7 @@
   </div>
   <br>
   <input type="submit" value="Create Account" class="btn bg-info btn-dark" id="editbtn"/>
+  <a href="/customerSignIn"><input type="button" value="Cancel" class="btn btn-danger" id="cancelbutton"/></a>
+
 </form>
 {% endblock %}

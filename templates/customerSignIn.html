@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "baseless.html" %}
 {% set active_page = "customerSignIn" %}
 {% block title %}Sign In{% endblock %}
 
@@ -24,4 +24,7 @@
   <br>
   <input type="submit" value="Sign In" class="btn bg-info btn-dark" id="editbtn"/>
 </form>
+<a href="/createCustomer">Create Customer?</a>
+<br>
+<a href="/createVendor">Create Vendor?</a>
 {% endblock %}

@@ -1,5 +1,26 @@
-.thing {
-margin: 5px;
-float: right !important;
+#chat {
+margin-bottom: 10px;
+position: absolute;
+left: 235px;
+bottom: 50px;
 }
 
+#cart {
+margin-bottom: 15px;
+position: absolute;
+left: 275px;
+bottom: 0px;
+}
+
+.title {
+text-align: center;
+font-weight: 500;
+}
+
+.card{
+font-size: 140%
+}
+#listinginfo{
+margin-left: 50px;
+margin-top: 30px;
+}

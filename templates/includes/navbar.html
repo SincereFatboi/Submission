@@ -6,6 +6,8 @@
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+
 
   <title>Title</title>
 </head>
@@ -15,43 +17,16 @@
     <div class="container-fluid">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'home' else '' }}" href="/">RentPlatter+</a>
+          <a class="nav-link">LOGO</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'cart' else '' }}" href="/cart">Cart</a>
+          <a class="nav-link {{ 'active' if active_page == 'home' else '' }}" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'createCustomer' else '' }}" href="/createCustomer">Customer
-            Create Account</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'retrieveCustomers' else '' }}"
-            href="/retrieveCustomers">Retrieve Customers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'createVendor' else '' }}" href="/createVendor">Vendor Create
-            Account</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'retrieveVendors' else '' }}"
-            href="/retrieveVendors">Retrieve Vendors</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'customerSignIn' else '' }}" href="/customerSignIn">Sign
-            In</a>
+          <a class="nav-link">Cart</a>
         </li>
         <li class="nav-item navbar-right">
-        <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'customerSignIn' else '' }}"
-            href="/vendor/chats/V1bb6141d-dcfe-40ae-be1e-35cb8842aa96">Vendor Chats</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ 'active' if active_page == 'customerSignIn' else '' }}"
-            href="/customer/chats/1">Customer Chats</a>
-        </li>
-        <li class="nav-item navbar-right">
-        <li class="nav-item navbar-right">
-          <a class="nav-link disabled" href="#">Disabled</a>
+          <a class="nav-link signing {{ 'active' if active_page == 'customerSignIn' else '' }}" href="/customerSignIn">Sign In</a>
         </li>
       </ul>
     </div>
