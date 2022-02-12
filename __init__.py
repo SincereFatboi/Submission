@@ -796,7 +796,8 @@ def chat(TYPE: str, MY_ID: str, YOUR_ID: str):
         for line in file:
             splitlist = line.split('<,./;>')
             if str(YOUR_ID) == str(splitlist[0]):
-                username = splitlist[1]
+                break
+    username = splitlist[2]
     return render_template("chat.html", asVendor=TYPE, me=MY_ID, you=YOUR_ID, chat=c, username=username)
 
 

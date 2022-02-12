@@ -3,7 +3,7 @@
 <!--This is for chat, message, review, and feedback features:-->
 
 {% block title %}
-{% if asVendor %}Customer{% else %}Vendor{% endif %} {{ you }} Chat:
+{% if asVendor %}Customer{% else %}Vendor{% endif %} {{ username }} Chat:
 {% endblock %}
 
 {% block style %}
@@ -39,11 +39,11 @@
                       draggable="false" placeholder="{{ message.msg() }}"
                       style="padding: 8px; color: white; border-radius: 16px; float: right; resize: none; height: auto; width: 100%; white-space: pre-line; border: 0; overflow-y: hidden; font-size: 14pt; display: inline; text-align: right;">{{ message.msg() }}</textarea>
                 <button type="button" class="btn btn-danger btn-sm" value="Delete" data-bs-toggle="modal"
-                        data-bs-target="#myModal_{{ message.index }}" style="float: right; display: inline;">
+                        data-bs-target="#myModal_{{ message.index }}" style="float: right; display: inline; border-radius: 0px; margin-right: 20px;">
                     Delete
                 </button>
                 <button type="button" class="btn btn-secondary btn-sm" value="Edit" id="edit-msg{{ message.index }}"
-                        style="float: right; display: inline;">
+                        style="float: right; display: inline; border-radius: 0px;">
                     Edit
                 </button>
                 <div class="modal" id="myModal_{{ message.index }}" data-bs-backdrop="false">
