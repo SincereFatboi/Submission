@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% set active_page = "createCustomer" %}
+{% set active_page = "customerSignIn" %}
 {% block title %}Create Customer{% endblock %}
 
 {% block content %}
 {% from "includes/formHelper.html" import render_field %}
 <head>
   <title>Create Customer</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/vendorAccountPage.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customerAccountPage.css') }}">
   <script src="{{url_for('static', filename='js/expand.js')}}"></script>
 
 </head>
@@ -56,7 +56,7 @@
                     </div>
                    <div>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h5 class="mb-0" class="lefty"><a class="linky" href="/vendor/chats/">Chats</a></h5>
+                    <h5 class="mb-0" class="lefty"><a class="linky" href="/customer/chats/{{ one_line[1] }}">Chats</a></h5>
                     <span class="text-secondary"></span>
                   </li>
                     </div>
@@ -89,7 +89,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info" id="editbtn" target="__blank" href="/updateVendor/">Edit</a>
+                      <a class="btn btn-info" id="editbtn" target="__blank" href="/updateCustomer/{{ one_line[0] }}">Edit</a>
                       <br>
                       <br>
                       <form action="{{url_for('sign_out')}}" method="POST">

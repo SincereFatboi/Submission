@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "baseless.html" %}
 {% block title %}Update Customer{% endblock %}
 
 {% block content %}
@@ -27,7 +27,7 @@
   <input type="submit" value="Edit Account" class="btn bg-info btn-dark"/>
   <br>
   <br>
-  <a href="/retrieveCustomers"><input type="button" value="Cancel" class="btn btn-danger" id="cancelbutton"/></a>
+  <a href="/customerAccountPage/{{ idk }}"><input type="button" value="Cancel" class="btn btn-danger" id="cancelbutton"/></a>
 </form>
 
 {% endblock %}

@@ -93,6 +93,7 @@ def update_customer(unique):
                     specific_line = specific_line.split('<,./;>')
                     break
             print(specific_line)
+            idk = specific_line[0]
             prefill_customer_form.username.data = specific_line[1]
             prefill_customer_form.email.data = specific_line[2]
             prefill_customer_form.password.data = specific_line[3]
@@ -103,9 +104,34 @@ def update_customer(unique):
             all_lines[i] = str(specific_line[0]) + '<,./;>' + update_customer_form.username.data + '<,./;>' + update_customer_form.email.data + '<,./;>' + update_customer_form.password.data + '<,./;>' + '\n'
             with open('customerDatabase.txt', 'w') as file:
                 file.writelines(all_lines)
-            return redirect(url_for('retrieve_customers'))
+            zoom = session['identification']
+            if zoom[:1] == 'A':
+                return redirect(url_for('retrieve_customers'))
+            elif zoom[:1] == 'C':
+                return redirect(url_for('customer_account_page', id=zoom))
     return render_template('updateCustomer.html', update_customer_form=update_customer_form,
-                           prefill_customer_form=prefill_customer_form)
+                           prefill_customer_form=prefill_customer_form, idk=idk)
+
+@app.route('/updateAdmin', methods=['GET', 'POST'])
+def update_admin():
+    prefill_customer_form = UpdateCustomerForm(request.form)
+    update_customer_form = UpdateCustomerForm(request.form)
+    with open('adminDetails.txt', 'r') as file:
+        for line in file:
+            specific_line = line.split('<,./;>')
+
+
+            prefill_customer_form.username.data = specific_line[2]
+            prefill_customer_form.email.data = specific_line[0]
+            prefill_customer_form.password.data = specific_line[1]
+    if request.method == 'POST' and update_customer_form.validate():
+        all_lines = update_customer_form.email.data + '<,./;>' + update_customer_form.password.data + '<,./;>' + update_customer_form.username.data + '<,./;>' + 'A31c1c332-ab52-48c5-a64b-7c1b9d978d52' + '\n'
+        with open('adminDetails.txt', 'w') as file:
+            file.writelines(all_lines)
+        return redirect(url_for('admin_account_page'))
+
+    return render_template('updateAdmin.html', update_customer_form=update_customer_form, prefill_customer_form=prefill_customer_form)
+
 
 
 @app.route('/deleteCustomer/<string:unique>', methods=['GET', 'POST'])
@@ -127,31 +153,6 @@ def delete_customer(unique):
     return render_template('updateCustomer.html')
 
 
-# @app.route('/customerSignIn', methods=['GET', 'POST'])
-# def customer_sign_in():
-#     customer_sign_in = CustomerSignIn(request.form)
-#     if request.method == 'POST' and customer_sign_in.validate():
-#         with open('customerDatabase.txt', 'r') as file:
-#             for line in file:
-#                 different = line.split('<,./;>')
-#                 print(different)
-#                 print(customer_sign_in.email.data)
-#                 print(customer_sign_in.password.data)
-#                 if str(customer_sign_in.email.data) == str(
-#                         different[2]) and str(customer_sign_in.password.data) == str(different[3]):
-#                     print('Yes, you are signed in!')
-#                     identity = different[0]
-#                     print(identity)
-#
-#                     return redirect(url_for('customer_account_page', id=identity))
-#         if str(customer_sign_in.email.data) != str(
-#                 different[2]) or str(customer_sign_in.password.data) != str(different[3]):
-#             print('No, you are not signed in!')
-#             customer_sign_in.password.errors = ['Either your password or email is wrong']
-#             customer_sign_in.email.data = ''
-#     return render_template('customerSignIn.html', customer_sign_in=customer_sign_in)
-
-
 @app.route('/customerAccountPage/<id>')
 def customer_account_page(id):
     with open('customerDatabase.txt', 'r+') as file:
@@ -170,6 +171,16 @@ def customer_account_page(id):
                 one_line = one_line.split('<,./;>')
     return render_template('customerAccountPage.html', one_line=one_line)
 
+@app.route('/adminAccountPage')
+def admin_account_page():
+    with open('adminDetails.txt', 'r+') as file:
+        for line in file:
+            print('Shitty Loop')
+            pro = line.split('<,./;>')
+            break
+        print(pro)
+    return render_template('adminAccountPage.html', pro=pro)
+
 
 @app.route('/createVendor', methods=['GET', 'POST'])
 def create_vendor():
@@ -178,6 +189,27 @@ def create_vendor():
         vendor_id = Vendor(create_vendor_form.name.data, create_vendor_form.username.data,
                            create_vendor_form.email.data, create_vendor_form.mobile.data,
                            create_vendor_form.password.data, create_vendor_form.password_confirm.data).get_vendor_id()
+
+        items_dict = {}
+        delete_dict = {}
+
+        db = shelve.open(str(vendor_id) + '.db', 'c')
+
+
+        items_dict[vendor_id] = 4
+
+        db['vendorItems'] = items_dict
+
+        delete_dict = db['vendorItems']
+
+        delete_dict.clear()
+
+        db['vendorItems'] = delete_dict
+
+
+
+        db.close()
+
         with open('vendorDatabase.txt', 'a') as file:
             file.write(str(vendor_id) + '<,./;>' + str(create_vendor_form.name.data) + '<,./;>' + str(create_vendor_form.username.data) + '<,./;>' + str(create_vendor_form.mobile.data) + '<,./;>' + str(create_vendor_form.email.data) + '<,./;>' + str(create_vendor_form.password.data) + '<,./;>' + '\n')
         return redirect(url_for('home'))
@@ -208,6 +240,7 @@ def update_vendor(unique):
                     specific_line = specific_line.split('<,./;>')
                     break
             print(specific_line)
+            idk = specific_line[0]
             prefill_vendor_form.name.data = specific_line[1]
             prefill_vendor_form.username.data = specific_line[2]
             prefill_vendor_form.mobile.data = specific_line[3]
@@ -220,9 +253,13 @@ def update_vendor(unique):
             all_lines[i] = str(specific_line[0]) + '<,./;>' + update_vendor_form.name.data + '<,./;>' + update_vendor_form.username.data + '<,./;>' + update_vendor_form.mobile.data + '<,./;>' + update_vendor_form.email.data + '<,./;>' + update_vendor_form.password.data + '<,./;>' + '\n'
             with open('vendorDatabase.txt', 'w') as file:
                 file.writelines(all_lines)
-            return redirect(url_for('retrieve_vendors'))
+            zoom = session['identification']
+            if zoom[:1] == 'A':
+                return redirect(url_for('retrieve_vendors'))
+            elif zoom[:1] == 'V':
+                return redirect(url_for('vendor_account_page', id=zoom))
     return render_template('updateVendor.html', update_vendor_form=update_vendor_form,
-                           prefill_vendor_form=prefill_vendor_form)
+                           prefill_vendor_form=prefill_vendor_form, idk=idk)
 
 
 @app.route('/deleteVendor/<string:unique>', methods=['GET', 'POST'])
@@ -250,10 +287,12 @@ def customer_sign_in():
         identity = session['identification']
         if identity[:1] == 'V':
             return redirect(url_for('vendor_account_page', id=identity))
-        if identity[:1] == 'C':
+        elif identity[:1] == 'C':
             return redirect(url_for('customer_account_page', id=identity))
+        elif identity[:1] == 'A':
+            return redirect(url_for('admin_account_page'))
     if request.method == 'POST' and customer_sign_in.validate():
-        with open('customerDatabase.txt', 'r') as file, open('vendorDatabase.txt', 'r') as file2:
+        with open('customerDatabase.txt', 'r') as file, open('vendorDatabase.txt', 'r') as file2, open('adminDetails.txt', 'r') as file3:
             for line in file:
                 different = line.split('<,./;>')
                 if str(customer_sign_in.email.data) == str(
@@ -269,6 +308,12 @@ def customer_sign_in():
                     identity = different2[0]
                     session['identification'] = identity
                     return redirect(url_for('vendor_account_page', id=identity))
+            for line3 in file3:
+                different3 = line3.split('<,./;>')
+                if str(customer_sign_in.email.data) == str(different3[0]) and str(customer_sign_in.password.data) == str(different3[1]):
+                    identity = different3[3]
+                    session['identification'] = identity
+                    return redirect(url_for('admin_account_page'))
         if str(customer_sign_in.email.data) != str(different[2]) or str(customer_sign_in.password.data) != str(different[3]):
             customer_sign_in.password.errors = ['Either your password or email is wrong']
             customer_sign_in.email.data = ''
@@ -285,7 +330,6 @@ def customer_store():
 
 @app.route('/vendorAccountPage/<id>', methods=['GET', 'POST'])
 def vendor_account_page(id):
-    print('Hello')
     with open('vendorDatabase.txt', 'r') as file:
         for lines in file:
             look = lines.split('<,./;>')
@@ -307,6 +351,32 @@ def sign_out():
 def empty_listing_page():
     return render_template('emptylistingpage.html')
 
+
+
+@app.route('/vendorSpecificPage/<vendorid>')
+def vendor_specific_page(vendorid):
+    try:
+
+        db = shelve.open(str(vendorid) + '.db', 'c')
+        print(db['vendorItems'])
+
+    except Exception as e:
+        print(e, 'hello')
+        return redirect(url_for('empty_listing_page'))
+    else:
+        items_dict = db['vendorItems']
+        print(items_dict)
+        db.close()
+        items_list = []
+        for key in items_dict:
+            item = items_dict.get(key)
+            items_list.append(item)
+
+
+
+    return render_template('vendorSpecificPage.html', items_list=items_list, vendorid=vendorid)
+
+
 @app.route('/listingpage/<vendorid>')
 def listingpage(vendorid):
     # retrieve items from database
@@ -320,7 +390,7 @@ def listingpage(vendorid):
 
     except Exception as e:
         print(e)
-        return redirect(url_for('empty_listing_page'))
+        return redirect(url_for('home'))
     else:
         items_dict = db['vendorItems']
         print(items_dict)
@@ -331,6 +401,7 @@ def listingpage(vendorid):
             items_list.append(item)
 
     return render_template('listingpage.html', items_list=items_list, vendorid=vendorid)
+
 
 @app.route('/customerlistingpage/<id>')
 def customerlistingpage():
@@ -482,6 +553,7 @@ def delete_item(vendorid, id):
 
 
 # create new itemg
+
 
 @app.route('/createitem/<vendorid>', methods=['GET', 'POST'])
 def create_item(vendorid):

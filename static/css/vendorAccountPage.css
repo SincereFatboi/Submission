@@ -1,5 +1,4 @@
 body{
-    margin-top:20px;
     color: #1a202c;
     text-align: left;
     background-color: #e2e8f0;
@@ -55,10 +54,7 @@ body{
 float: right;
 width: 100px;
 }
-.navbar {
-position: relative;
-top: -20px;
-}
+
 #expanding {
 font-size: 30px;
 position: relative;
@@ -97,4 +93,7 @@ color: #17a2b8;
 }
 .normal {
 color: black;
+}
+#editbtn {
+top: 5px;
 }
