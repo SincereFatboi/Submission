@@ -24,7 +24,6 @@
                 <p class="card-title">Vendor: {{ item.get_vendor_name() }}</p>
                 <p style="white-space: pre-line;">Specifications: {{item.get_description()}}</p>
                 <p>${{item.get_rate()}}/day</p>
-                <p id = "available" style="color: green;">Available: {{item.get_available()}}</p>
             </div>
             <a href='/customer/chats/{{ account }}/{{ item.get_vendor_id() }}' class="btn btn-warning" id="chat" >Chat with Vendor</a>
             <a href='' class="btn btn-info" id="cart" >Add to Cart</a>
