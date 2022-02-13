@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, session
 import shelve
+from Loan import Loan
 
 bookings = Blueprint("bookings", __name__)
 
@@ -41,20 +42,33 @@ def date(id):
 
 @bookings.route("/create", methods=["POST"])
 def create():
-    data = request.json
-    cart = data["cart"]
+    cart = request.json
 
     items_dict = {}
-    db = shelve.open('items.db', 'c')
+    db1 = shelve.open('items.db', 'c')
+
+    loans_dict = {}
+    db2 = shelve.open('loans.db', 'c')
 
     # handle errors
 
     try:
-        items_dict = db['Items']
+        items_dict = db1['Items']
+        loans_dict = db2['Loans']
+        db1.close()
+        db2.close()
     except:
         print("Error in retrieving items")
 
     for i in cart:
-        id = i["id"]
+        id = int(i["id"])
+        print(items_dict)
         item = items_dict[id]
+
+        print(item.__dict__)
+
+        identity = session['identification']
+        print(identity)
+
+        loan = Loan(item.get_item_pic(), item.get_item_name(), int(i["start"]), int(i["end"]), )
 

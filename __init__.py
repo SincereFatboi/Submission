@@ -33,9 +33,10 @@ def payment():
 def thanks():
     return render_template('thanks.html')
 
+app.secret_key = 'random123random098'
+
 @app.route('/')
 def home():
-    app.secret_key = 'random123random098'
     if 'identification' not in session:
         return redirect(url_for('customer_store'))
     else:
