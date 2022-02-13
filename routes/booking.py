@@ -56,7 +56,6 @@ def create():
         items_dict = db1['Items']
         loans_dict = db2['Loans']
         db1.close()
-        db2.close()
     except:
         print("Error in retrieving items")
 
@@ -67,8 +66,23 @@ def create():
 
         print(item.__dict__)
 
-        identity = session['identification']
-        print(identity)
+        user_id = session['identification']
+        user_name = ""
 
-        loan = Loan(item.get_item_pic(), item.get_item_name(), int(i["start"]), int(i["end"]), )
+        with open('./customerDatabase.txt', 'r') as file:
+            for line in file:
+                information = line.split('<,./;>')
+                if information[0] == user_id:
+                    user_name = information[1]
+                    break
+
+        loan = Loan(item.get_image(), item.get_name(), int(i["start"]), int(i["end"]), user_id, user_name, item.get_vendor_id(), item.get_vendor_name())
+
+        loans_dict[loan.get_id()] = loan
+
+    db2['Loans'] = loans_dict
+
+    db2.close()
+    
+    return '{}', 200
 

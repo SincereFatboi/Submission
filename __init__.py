@@ -16,10 +16,11 @@ from flask import Flask, render_template, request, redirect, url_for
 import Item
 import Loan
 from routes.booking import bookings
+from routes.loans import loansBP
 
 app = Flask(__name__)
 app.register_blueprint(bookings, url_prefix="/book")
-
+app.register_blueprint(loansBP, url_prefix="/loans")
 
 @app.route('/cart/<mono>')
 def cart(mono):
