@@ -21,8 +21,6 @@
                 <p class="card-title" style="font-size: 140%">Item Name: {{item.get_name()}}</p>
                 <p style="white-space: pre-line; font-size: 140%;">Specifications: {{item.get_description()}}</p>
                 <p style="color: #17a2b8; font-size: 140%;">${{item.get_rate()}}/day</p>
-                <p id = "on_loan" style="color: red; font-size: 140%;">On Loan: {{item.get_on_loan()}}</p>
-                <p id = "available" style="color: green; font-size: 140%;">Available: {{item.get_available()}}</p>
             </div>
                 <!--    update item-->
             <a href='/updateitem/{{ vendorid }}/{{item.get_id()}}/' class="btn btn-info" style="margin-left: 250px; width: 115px;" id ="updateButton">Update Item</a>

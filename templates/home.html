@@ -23,7 +23,6 @@
                 <p class="card-title">Vendor: <a href="/vendorSpecificPage/{{ item.get_vendor_id() }}" id="tired">{{ item.get_vendor_name() }}</a></p>
                 <p style="white-space: pre-line;">Specifications: {{item.get_description()}}</p>
                 <p style="color: #17a2b8;">${{item.get_rate()}}/day</p>
-                <p id = "available" style="color: green;">Available: {{item.get_available()}}</p>
             </div>
             <a href='/customer/chats/{{ account }}/{{ item.get_vendor_id() }}' class="btn btn-warning" id="chat">Chat with Vendor</a>
             <a href='#' class="btn btn-info" onclick="location.href = '/book/{{ item.get_id() }}'" id="cart">Add to Cart</a>
