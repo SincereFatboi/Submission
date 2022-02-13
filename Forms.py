@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, DateField, PasswordField, IntegerField, FileField, DecimalField, validators, ValidationError
 from wtforms.fields.html5 import EmailField
 from wtforms.widgets import PasswordInput
-
+#hello
 
 class CreateUserForm(Form):
     email = EmailField('Email', [validators.Length(min=1, max=150), validators.InputRequired()])
@@ -17,14 +17,14 @@ class CreateCustomerForm(Form):
                 different = line.split('<,./;>')
                 if str(field.data) == str(different[1]):
                     raise ValidationError('This username is already taken!')
-    username = StringField('Username', [validators.Length(min=1, max=100), validators.DataRequired()])
+    username = StringField('Username', [validators.Length(min=1, max=100), validators.DataRequired(), repeat_username])
     def repeat_email(form, field):
         with open('customerDatabase.txt', 'r') as file:
             for line in file:
                 different = line.split('<,./;>')
                 if str(field.data) == str(different[2]):
                     raise ValidationError('This email is already taken!')
-    email = EmailField('Email', [validators.Length(min=1, max=150), validators.DataRequired()])
+    email = EmailField('Email', [validators.Length(min=1, max=150), validators.DataRequired(), repeat_email])
     password = PasswordField('Confirm Password', [validators.Length(min=1, max=150), validators.DataRequired()])
     password_confirm = PasswordField('Password', [validators.Length(min=1, max=150), validators.DataRequired(), validators.EqualTo('password_confirm', message="Passwords must match!")])
 
@@ -33,6 +33,8 @@ class UpdateCustomerForm(Form):
     username = StringField('Username', [validators.Length(min=1, max=100), validators.DataRequired()])
     email = EmailField('Email', [validators.Length(min=1, max=150), validators.DataRequired()])
     password = StringField('Password', widget=PasswordInput(hide_value=False))
+    hidden = StringField('Hidden', [validators.Length(min=1, max=150)])
+    password_confirm = PasswordField('Previous Password', [validators.Length(min=1, max=150), validators.DataRequired(), validators.EqualTo('hidden', message="Passwords must match!")])
 
 
 class CustomerSignIn(Form):
@@ -56,9 +58,9 @@ class CreateVendorForm(Form):
                 if str(field.data) == str(different[4]):
                     raise ValidationError('This email is already taken!')
     email = EmailField('Email', [validators.Length(min=1, max=150), validators.DataRequired(), repeat_email])
-    mobile = StringField('Mobile Number', [validators.Length(min=1, max=8), validators.DataRequired()])
+    mobile = StringField('Mobile Number', [validators.Length(min=8, max=8), validators.DataRequired()])
     password = PasswordField('Confirm Password', [validators.Length(min=1, max=150), validators.DataRequired()])
-    password_confirm = PasswordField('Password', [validators.Length(min=1, max=150), validators.DataRequired(), validators.EqualTo('password_confirm', message="Passwords must match!")])
+    password_confirm = PasswordField('Password', [validators.Length(min=1, max=150), validators.DataRequired(), validators.EqualTo('password', message="Passwords must match!")])
 
 
 class UpdateVendorForm(Form):
@@ -67,6 +69,9 @@ class UpdateVendorForm(Form):
     email = EmailField('Email', [validators.Length(min=1, max=150), validators.DataRequired()])
     mobile = StringField('Mobile Number', [validators.Length(min=1, max=8), validators.DataRequired()])
     password = StringField('Password', widget=PasswordInput(hide_value=False))
+    hidden = StringField('Hidden', [validators.Length(min=1, max=150)])
+    password_confirm = PasswordField('Previous Password', [validators.Length(min=1, max=150), validators.DataRequired(), validators.EqualTo('hidden', message="Passwords must match!")])
+
 
 class VendorSignIn(Form):
     username = StringField('Username', [validators.Length(min=1, max=100), validators.DataRequired()])
@@ -77,7 +82,7 @@ class VendorSignIn(Form):
 class CreateItemForm(Form):
     image = FileField(u'Image File')
     name = StringField('Item Name', [validators.Length(min = 1, max = 150), validators.DataRequired()], render_kw={"placeholder": "Enter Item name"})
-    description = TextAreaField('Description', [validators.DataRequired()] ,render_kw={"rows": 10, "cols": 11})
+    description = TextAreaField('Description', [validators.DataRequired(), validators.Length(min = 1, max = 250)] ,render_kw={"rows": 10, "cols": 11})
     rate = DecimalField('Daily Rate', [validators.number_range(min=0),validators.InputRequired()])
     on_loan = IntegerField('On Loan', [validators.number_range(min=0),validators.InputRequired()])
     available = IntegerField('Inventory stock', [validators.number_range(min=1),validators.InputRequired()])
