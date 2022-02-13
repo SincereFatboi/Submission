@@ -9,27 +9,43 @@
 </head>
 <br>
 <h1 class="display-4 title">rentplatter</h1>
+<input type="text" onkeyup="search(this.value)" placeholder="Search for an item..." style="border: none; border: 1px solid grey; padding: 3px 8px;margin: 40px calc(50% - 100px);text-align: center;outline: none" />
 <br>
-    <div class="row" style="margin-left: 20px;">
+<br>
+<div class="row">
     {%for item in items_list%}
 
-    <div class="col-lg-3 col-sm-6 pb-4">
-        <div class="card" style="width: 25rem; height: 700px; " id="item-card">
-            <img src= "{{url_for('static', filename='/images/'~item.get_id()~'.png')}}" alt="{{item.get_name()}}"  id="listingImage" style="width: 398.5px; height: 300px; object-fit: cover;">
+    <div class="col-lg-3 col-sm-6 col-md-6 pb-3 searchItem" data-name="{{ item.get_name() }}">
+        <div class="card" style="width: 25rem; height: 700px;" id="item-card">
+            <img src= "{{url_for('static', filename='/images/'~item.get_id()~'.png')}}" class="img-responsive" alt="{{item.get_name()}}"  id="listingImage" style="width: 398px; height: 300px; object-fit: cover;">
             <div id="listingInfo" style="margin-left: 20px; margin-top: 30px;">
                 <p class="card-title">Item Name: {{item.get_name()}}</p>
-                <p class="card-title">Vendor: <a href="/vendorSpecificPage/{{ item.get_vendor_id() }}">{{ item.get_vendor_name() }}</a></p>
+                <p class="card-title">Vendor: <a href="/vendorSpecificPage/{{ item.get_vendor_id() }}" id="tired">{{ item.get_vendor_name() }}</a></p>
                 <p style="white-space: pre-line;">Specifications: {{item.get_description()}}</p>
                 <p style="color: #17a2b8;">${{item.get_rate()}}/day</p>
                 <p id = "available" style="color: green;">Available: {{item.get_available()}}</p>
             </div>
-            <a href='/customer/chats/{{ account }}/{{ item.get_vendor_id() }}' class="btn btn-warning" id="chat" >Chat with Vendor</a>
-            <a href='' class="btn btn-info" id="cart" >Add to Cart</a>
+            <a href='/customer/chats/{{ account }}/{{ item.get_vendor_id() }}' class="btn btn-warning" id="chat">Chat with Vendor</a>
+            <a href='#' class="btn btn-info" onclick="location.href = '/book/{{ item.get_id() }}'" id="cart">Add to Cart</a>
+            <br>
 
 
         </div>
     </div>
     {% endfor %}
+    <script>
+        let searchItems = document.getElementsByClassName("searchItem")
+        function search(key) {
+            for (let i = 0; i < searchItems.length; i++) {
+                let searchItem = searchItems[i];
+                if (searchItem.dataset.name.toLowerCase().includes(key.toLowerCase())) {
+                    searchItem.style.display = "block";
+                } else {
+                    searchItem.style.display = "none";
+                }
+            }
+        }
+    </script>
     </div>
 {% endblock %}
 

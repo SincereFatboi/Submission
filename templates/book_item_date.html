@@ -55,8 +55,8 @@
 
     const dateRange = document.getElementById("dateRange");
 
-    let date1Selected = new Date(),
-        date2Selected = new Date();
+    let date1Selected = null,
+        date2Selected = null;
 
     const picker = new Litepicker({ 
         element: document.getElementById('datepicker'),
@@ -69,6 +69,7 @@
     picker.on('selected', (date1, date2) => {
         date1Selected = date1.dateInstance;
         date2Selected = date2.dateInstance;
+        dateRange.style.color = '';
         dateRange.innerHTML = `${date1.dateInstance.toLocaleDateString("en-GB")} - ${date2.dateInstance.toLocaleDateString("en-GB")}`
     });
 
@@ -79,6 +80,11 @@
         if (!cart) { cart = "[]"; }
         cart = JSON.parse(cart);
 
+        if (!date1Selected || !date2Selected) {
+            dateRange.style.color = 'red';
+            return dateRange.innerHTML = "Please select a date range!";
+        }
+
         cart.push({
             id: "{{ item.get_id() }}",
             name: "{{ item.get_name() }}",
@@ -88,7 +94,7 @@
         });
 
         localStorage.setItem("cart", JSON.stringify(cart));
-        location.href = "/cart";
+        location.href = "/cart/{{ naming }}";
     }
 </script>
 

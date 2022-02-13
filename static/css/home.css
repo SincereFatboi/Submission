@@ -3,6 +3,7 @@ margin-bottom: 10px;
 position: absolute;
 left: 235px;
 bottom: 50px;
+
 }
 
 #cart {
@@ -10,6 +11,7 @@ margin-bottom: 15px;
 position: absolute;
 left: 275px;
 bottom: 0px;
+
 }
 
 .title {
@@ -23,4 +25,23 @@ font-size: 140%
 #listinginfo{
 margin-left: 50px;
 margin-top: 30px;
+}
+
+.row{
+margin: auto;
+width: 98%;
+position: relative;
+right: -20px;
+}
+#tired {
+color: black;
+text-decoration: none;
+}
+#tired:hover {
+color: #17a2b8;
+
+}
+#back{
+background-color: #17a2b8;
+color: white;
 }

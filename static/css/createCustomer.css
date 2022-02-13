@@ -19,3 +19,8 @@ top: -23px;
     margin-bottom: 30px;
     background-color:#17a2b8
 }
+#cancelbtn {
+float: right;
+position: relative;
+top: -23px;
+}

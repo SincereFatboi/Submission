@@ -30,20 +30,20 @@
                 {% endif %} @{{ message.id() }}:
             </b></p>
             {% if message.id() == me %}
-            <form class="bg-success" name="msg" method="POST" action="edit" onsubmit="this.submit();return false;"
+            <form class="bg-white" name="msg" method="POST" action="edit" onsubmit="this.submit();return false;"
                   id="chatMsg{{ message.index }}"
                   style="border-radius: 16px; width: 95%; height: auto; overflow-x: hidden; float: right; display: inline;">
             <textarea oninput="this.style.height=this.scrollHeight+'px';" onfocus="this.oninput();"
                       onmouseover="this.oninput();" onwheel="this.oninput();" onload="this.oninput();" name="msg"
-                      autocomplete="off" form="msg{{ message.index }}" class="bg-success" id="msg{{ message.index }}"
+                      autocomplete="off" form="msg{{ message.index }}" class="bg-secondary" id="msg{{ message.index }}"
                       draggable="false" placeholder="{{ message.msg() }}"
                       style="padding: 8px; color: white; border-radius: 16px; float: right; resize: none; height: auto; width: 100%; white-space: pre-line; border: 0; overflow-y: hidden; font-size: 14pt; display: inline; text-align: right;">{{ message.msg() }}</textarea>
                 <button type="button" class="btn btn-danger btn-sm" value="Delete" data-bs-toggle="modal"
-                        data-bs-target="#myModal_{{ message.index }}" style="float: right; display: inline; border-radius: 0px; margin-right: 20px;">
+                        data-bs-target="#myModal_{{ message.index }}" style="float: right; display: inline; border-radius: 0px; margin-right: 20px; margin-top: 5px;">
                     Delete
                 </button>
                 <button type="button" class="btn btn-secondary btn-sm" value="Edit" id="edit-msg{{ message.index }}"
-                        style="float: right; display: inline; border-radius: 0px;">
+                        style="float: right; display: inline; border-radius: 0px; margin-top: 5px; margin-right: 5px;">
                     Edit
                 </button>
                 <div class="modal" id="myModal_{{ message.index }}" data-bs-backdrop="false">
@@ -76,7 +76,7 @@
             <p><b id="edited{{ message.index }}" style="font-size: 14pt; display: inline;">
                 {% if message.isEdited() %}(Edited){% endif %}</b></p>
             <span class="time-right"
-                  style="font-size: 14pt; display: inline; float: right;">{{ message.timeFormat() }}</span>
+                  style="font-size: 14pt; display: inline; float: right; margin-top: 15px;">{{ message.timeFormat() }}</span>
         </div>
         {% endfor %}
     </div>

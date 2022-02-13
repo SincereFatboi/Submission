@@ -10,12 +10,12 @@
 <hr>
 <br>
 <!--print items in dictionary-->
-    <div class="row">
+    <div class="row" style="align: center;">
     {%for item in items_list%}
 
-    <div class="col-lg-3 col-sm-6 pb-4">
+    <div class="col-lg-3 col-sm-6 col-md-6 pb-3" style="margin-left: 20px;">
         <div class="card" style="width: 25rem; " id="item-card">
-            <img src= "{{url_for('static', filename='/images/'~item.get_id()~'.png')}}" alt="{{item.get_name()}}"  id="listingImage" style="width: 400px; height: 300px; object-fit: cover;">
+            <img src= "{{url_for('static', filename='/images/'~item.get_id()~'.png')}}" class="img-responsive" alt="{{item.get_name()}}"  id="listingImage" style="width: 398px; height: 300px; object-fit: cover;">
             <div id="listingInfo" style="margin-left: 20px; margin-top: 30px;">
                 <p style="font-size: 140%">Item ID: {{item.get_id()}}</p>
                 <p class="card-title" style="font-size: 140%">Item Name: {{item.get_name()}}</p>
@@ -36,9 +36,6 @@
 
     {%endfor%}
     </div>
-
-
-
 
 
 

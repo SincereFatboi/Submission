@@ -96,3 +96,25 @@ color: black;
 #editbtn {
 top: 5px;
 }
+#chatting {
+margin-right: 5px;
+margin-bottom: 8px;
+margin-left: 1px;
+position: relative;
+top: 6px;
+left: -3px;
+}
+#loaning {
+margin-right: 5px;
+margin-bottom: 8px;
+position: relative;
+top: 6px;
+left: -3px;
+}
+.uncool {
+color: black;
+}
+.uncool:hover {
+text-decoration: none;
+color: #17a2b8;
+}

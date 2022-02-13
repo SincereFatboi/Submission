@@ -13,18 +13,21 @@
 <form method="POST" action="" class="form-container">
   <h1 class="display-4" id="header">Sign In</h1>
 <hr>
-<br>
+  <br>
   <div class="form-group">
     {{ render_field(customer_sign_in.email, class="form-control") }}
   </div>
   <br>
+
   <div class="form-group">
     {{ render_field(customer_sign_in.password, class="form-control") }}
   </div>
   <br>
   <input type="submit" value="Sign In" class="btn bg-info btn-dark" id="editbtn"/>
+  <br>
+  <br>
+  <p id="asd">become a <a href="/createCustomer">Customer</a> or <a href="/createVendor">Vendor</a> today!</p>
+
 </form>
-<a href="/createCustomer">Create Customer?</a>
-<br>
-<a href="/createVendor">Create Vendor?</a>
+
 {% endblock %}

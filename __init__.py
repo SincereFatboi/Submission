@@ -20,9 +20,18 @@ from routes.booking import bookings
 app = Flask(__name__)
 app.register_blueprint(bookings, url_prefix="/book")
 
-@app.route('/cart')
-def cart():
+
+@app.route('/cart/<mono>')
+def cart(mono):
     return render_template("cart.html")
+
+@app.route('/payment')
+def payment():
+    return render_template("payments.html")
+
+@app.route('/thanks')
+def thanks():
+    return render_template('thanks.html')
 
 @app.route('/')
 def home():
@@ -97,18 +106,33 @@ def update_customer(unique):
             prefill_customer_form.username.data = specific_line[1]
             prefill_customer_form.email.data = specific_line[2]
             prefill_customer_form.password.data = specific_line[3]
+            prefill_customer_form.hidden.data = specific_line[3]
     except Exception as e:
         print(e)
     else:
-        if request.method == 'POST' and update_customer_form.validate():
+        listing = []
+        with open('customerDatabase.txt', 'r') as file:
+            for line in file:
+                key = line.split('<,./;>')
+                listing.append(key[2])
+                if prefill_customer_form.email.data == key[2]:
+                    listing.remove(key[2])
+
+        print(listing)
+        if request.method == 'POST' and update_customer_form.email.data not in listing and update_customer_form.validate():
             all_lines[i] = str(specific_line[0]) + '<,./;>' + update_customer_form.username.data + '<,./;>' + update_customer_form.email.data + '<,./;>' + update_customer_form.password.data + '<,./;>' + '\n'
             with open('customerDatabase.txt', 'w') as file:
                 file.writelines(all_lines)
+            listing.clear()
             zoom = session['identification']
             if zoom[:1] == 'A':
                 return redirect(url_for('retrieve_customers'))
             elif zoom[:1] == 'C':
                 return redirect(url_for('customer_account_page', id=zoom))
+        else:
+            listing.clear()
+            update_customer_form.email.errors = ['Hello']
+
     return render_template('updateCustomer.html', update_customer_form=update_customer_form,
                            prefill_customer_form=prefill_customer_form, idk=idk)
 
@@ -124,6 +148,8 @@ def update_admin():
             prefill_customer_form.username.data = specific_line[2]
             prefill_customer_form.email.data = specific_line[0]
             prefill_customer_form.password.data = specific_line[1]
+            prefill_customer_form.hidden.data = specific_line[1]
+            prefill_customer_form.password_confirm.data = specific_line[1]
     if request.method == 'POST' and update_customer_form.validate():
         all_lines = update_customer_form.email.data + '<,./;>' + update_customer_form.password.data + '<,./;>' + update_customer_form.username.data + '<,./;>' + 'A31c1c332-ab52-48c5-a64b-7c1b9d978d52' + '\n'
         with open('adminDetails.txt', 'w') as file:
@@ -246,6 +272,7 @@ def update_vendor(unique):
             prefill_vendor_form.mobile.data = specific_line[3]
             prefill_vendor_form.email.data = specific_line[4]
             prefill_vendor_form.password.data = specific_line[5]
+            prefill_vendor_form.hidden.data = specific_line[5]
     except Exception as e:
         print(e)
     else:
@@ -371,10 +398,16 @@ def vendor_specific_page(vendorid):
         for key in items_dict:
             item = items_dict.get(key)
             items_list.append(item)
+    with open('vendorDatabase.txt', 'r') as file:
+        for line in file:
+            lookster = line.split('<,./;>')
+            if vendorid == lookster[0]:
+                name = lookster[2]
+                break
 
 
 
-    return render_template('vendorSpecificPage.html', items_list=items_list, vendorid=vendorid)
+    return render_template('vendorSpecificPage.html', items_list=items_list, vendorid=vendorid, name=name)
 
 
 @app.route('/listingpage/<vendorid>')

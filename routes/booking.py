@@ -34,5 +34,27 @@ def date(id):
         print("Error in retrieving items")
 
     item = items_dict[id]
+    print(item.get_vendor_id())
 
-    return render_template("book_item_date.html", item=item)
+
+    return render_template("book_item_date.html", item=item, naming=item.get_vendor_id())
+
+@bookings.route("/create", methods=["POST"])
+def create():
+    data = request.json
+    cart = data["cart"]
+
+    items_dict = {}
+    db = shelve.open('items.db', 'c')
+
+    # handle errors
+
+    try:
+        items_dict = db['Items']
+    except:
+        print("Error in retrieving items")
+
+    for i in cart:
+        id = i["id"]
+        item = items_dict[id]
+

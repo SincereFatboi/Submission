@@ -31,6 +31,14 @@
     {{ render_field(prefill_vendor_form.password, class="form-control") }}
   </p>
   <br>
+   <p class="form-group">
+    {{ render_field(prefill_vendor_form.password_confirm, class="form-control") }}
+  </p>
+  <br>
+   <p class="form-group" id="hidden">
+    {{ render_field(prefill_vendor_form.hidden, class="form-control") }}
+  </p>
+
   <br>
   <input type="submit" value="Edit Account" class="btn bg-info btn-dark"/>
   <br>
